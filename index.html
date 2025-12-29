@@ -21,26 +21,27 @@
     <nav class="fixed w-full z-50 bg-slate-900/90 backdrop-blur-sm border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold font-mono text-cyan-400">masakiss.ai</h1>
-            <div class="space-x-6 text-sm font-medium">
+            <div class="space-x-6 text-sm font-medium hidden md:block">
                 <a href="#about" class="hover:text-cyan-400 transition">About</a>
                 <a href="#projects" class="hover:text-cyan-400 transition">Projects</a>
+                <a href="#certifications" class="hover:text-cyan-400 transition">Certifications</a>
                 <a href="#contact" class="hover:text-cyan-400 transition">Contact</a>
             </div>
         </div>
     </nav>
 
-    <section class="min-h-screen flex items-center justify-center pt-24 pb-10">
+    <section id="about" class="min-h-screen flex items-center justify-center pt-24 pb-10">
         <div class="text-center px-4 max-w-4xl mx-auto">
             <div class="mb-8 relative inline-block">
                 <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-md opacity-50 -z-10"></div>
-                <img src="image.jpeg" alt="Mohamed Aziz Sakiss" class="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-slate-800 object-cover mx-auto relative z-10 shadow-xl">
+                <img src="image.png" alt="Mohamed Aziz Sakiss" class="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-slate-800 object-cover mx-auto relative z-10 shadow-xl">
             </div>
 
             <div class="mb-4 inline-block px-3 py-1 text-xs font-semibold text-cyan-400 bg-cyan-900/30 rounded-full border border-cyan-800">
-                Open to Opportunities in Europe & Tunisia
+                Open to Opportunities in Germany & Tunisia
             </div>
             <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                Hello, I am <span class="gradient-text">Mohamed Aziz Sakiss</span>
+                Hi, I'm <span class="gradient-text">Mohamed Aziz Sakiss</span>
             </h1>
             
             <p class="text-xl md:text-2xl text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -159,3 +160,63 @@
                 </div>
 
             </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="py-20 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center">Certifications & Credentials</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                    <div class="text-green-400 text-4xl mb-4"><i class="fa-solid fa-microchip"></i></div>
+                    <h3 class="text-lg font-bold mb-1">Building RAG Agents</h3>
+                    <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
+                    <p class="text-slate-500 text-xs">Issued Nov 2025</p>
+                </div>
+
+                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                    <div class="text-green-400 text-4xl mb-4"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="text-lg font-bold mb-1">Deep Learning Fund.</h3>
+                    <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
+                    <p class="text-slate-500 text-xs">Issued Nov 2025</p>
+                </div>
+
+                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                    <div class="text-blue-400 text-4xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h3 class="text-lg font-bold mb-1">AI Essentials V2</h3>
+                    <p class="text-cyan-400 text-sm font-mono mb-2">Coursera</p>
+                    <p class="text-slate-500 text-xs">Issued Dec 2025</p>
+                </div>
+
+                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                    <div class="text-yellow-400 text-4xl mb-4"><i class="fa-solid fa-language"></i></div>
+                    <h3 class="text-lg font-bold mb-1">German A2 Certificate</h3>
+                    <p class="text-cyan-400 text-sm font-mono mb-2">ÖSD</p>
+                    <p class="text-slate-500 text-xs">Certified</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-slate-900 border-t border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-8">Let's Work Together</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <a href="mailto:contact@mohamedsakiss.me" class="inline-flex items-center gap-2 text-xl font-bold text-slate-300 hover:text-cyan-400 transition">
+                    <i class="fa-regular fa-envelope"></i>
+                    contact@mohamedsakiss.me
+                </a>
+                <span class="hidden md:block text-slate-600">|</span>
+                <a href="https://www.linkedin.com/in/mohamed-aziz-sakiss-58a35b319" target="_blank" class="inline-flex items-center gap-2 text-xl font-bold text-slate-300 hover:text-[#0077b5] transition">
+                    <i class="fa-brands fa-linkedin"></i>
+                    LinkedIn Profile
+                </a>
+            </div>
+            <p class="mt-12 text-sm text-slate-600">© 2025 Mohamed Aziz Sakiss</p>
+        </div>
+    </section>
+
+</body>
+</html>
