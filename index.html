@@ -14,6 +14,7 @@
             -webkit-text-fill-color: transparent;
         }
         .card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        .cert-img { height: 160px; width: 100%; object-fit: cover; border-bottom: 1px solid #334155; }
     </style>
 </head>
 <body class="antialiased selection:bg-cyan-500 selection:text-white">
@@ -77,16 +78,14 @@
                         <div class="text-cyan-400 text-sm font-mono mb-2">Computer Vision</div>
                         <h3 class="text-xl font-bold mb-3">Autonomous Driving Detection</h3>
                         <p class="text-slate-400 text-sm mb-4">
-                            Real-time perception system using <strong>YOLOv11m</strong> trained on BDD100K. Integrated <strong>SAHI</strong> (Slicing Aided Hyper Inference) to detect small distant objects with 84% Precision.
+                            Real-time perception system using <strong>YOLOv11m</strong> trained on BDD100K. Integrated <strong>SAHI</strong> to detect small distant objects with 84% Precision.
                         </p>
-                        
                         <div class="mb-4 rounded-lg overflow-hidden border border-slate-600 shadow-lg">
                             <video controls class="w-full bg-black">
                                 <source src="sahi_test_result.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-
                         <div class="flex flex-wrap gap-2 mb-4">
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">YOLOv11</span>
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">SAHI</span>
@@ -117,14 +116,12 @@
                         <p class="text-slate-400 text-sm mb-4">
                             Autonomous agent bridging <strong>WooCommerce</strong> and <strong>Dolibarr ERP</strong>. Features "Tool Use" capabilities to perform real-time SQL inventory checks.
                         </p>
-                        
                         <div class="mb-4 rounded-lg overflow-hidden border border-slate-600 shadow-lg">
                             <video controls class="w-full bg-black">
                                 <source src="chatbot.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
-
                         <div class="flex flex-wrap gap-2 mb-4">
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">LLMs</span>
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">LangChain</span>
@@ -138,11 +135,11 @@
                         <div class="text-cyan-400 text-sm font-mono mb-2">Medical AI</div>
                         <h3 class="text-xl font-bold mb-3">Brain Tumor Classification</h3>
                         <p class="text-slate-400 text-sm mb-4">
-                            Ensemble Deep Learning architecture combining VGG16 & ResNet50. Implemented a custom <strong>Channel Attention Mechanism</strong> to detect Glioma/Meningioma tumors with high accuracy.
+                            Ensemble Deep Learning architecture combining VGG16 & ResNet50. Implemented a custom <strong>Channel Attention Mechanism</strong> to detect Glioma/Meningioma.
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">TensorFlow</span>
-                            <span class="px-2 py-1 bg-slate-700 text-xs rounded">Attention Mechanism</span>
+                            <span class="px-2 py-1 bg-slate-700 text-xs rounded">Attention</span>
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">Medical Imaging</span>
                         </div>
                     </div>
@@ -153,7 +150,7 @@
                         <div class="text-cyan-400 text-sm font-mono mb-2">IoT & Embedded AI</div>
                         <h3 class="text-xl font-bold mb-3">Real-Time Fire Detection</h3>
                         <p class="text-slate-400 text-sm mb-4">
-                            Embedded system deployed on <strong>Raspberry Pi 4</strong>. Uses a custom CNN (96% accuracy) combined with HSV filtering to eliminate false positives in low-light environments.
+                            Embedded system deployed on <strong>Raspberry Pi 4</strong>. Uses a custom CNN (96% accuracy) combined with HSV filtering to eliminate false positives.
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">Edge AI</span>
@@ -168,7 +165,7 @@
                         <div class="text-cyan-400 text-sm font-mono mb-2">NLP & Big Data</div>
                         <h3 class="text-xl font-bold mb-3">Scalable Spam Detection</h3>
                         <p class="text-slate-400 text-sm mb-4">
-                            End-to-end pipeline using <strong>PySpark</strong>. Implements TF-IDF feature extraction and Naive Bayes classification to handle massive text datasets efficiently.
+                            End-to-end pipeline using <strong>PySpark</strong>. Implements TF-IDF feature extraction and Naive Bayes classification to handle massive text datasets.
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
                             <span class="px-2 py-1 bg-slate-700 text-xs rounded">NLP</span>
@@ -184,35 +181,67 @@
 
     <section id="certifications" class="py-20 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-12 text-center">Certifications & Credentials</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <h2 class="text-3xl font-bold mb-12 text-center">Verified Certifications</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
-                    <div class="text-green-400 text-4xl mb-4"><i class="fa-solid fa-microchip"></i></div>
-                    <h3 class="text-lg font-bold mb-1">Building RAG Agents</h3>
-                    <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
-                    <p class="text-slate-500 text-xs">Issued Nov 2025</p>
+                <div class="card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col">
+                    <img src="cert_rag.png" alt="NVIDIA RAG Certificate" class="cert-img">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold mb-1">Building RAG Agents with LLMs</h3>
+                        <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
+                        <p class="text-slate-500 text-xs mb-4">Issued Nov 2025</p>
+                        <a href="https://learn.nvidia.com/certificates?id=VBp-0QZLSiSyB1HBhfDtQA" target="_blank" class="mt-auto block w-full py-2 bg-slate-700 hover:bg-slate-600 text-center rounded text-sm font-bold transition">
+                            Verify Credential <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
-                    <div class="text-green-400 text-4xl mb-4"><i class="fa-solid fa-brain"></i></div>
-                    <h3 class="text-lg font-bold mb-1">Deep Learning Fund.</h3>
-                    <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
-                    <p class="text-slate-500 text-xs">Issued Nov 2025</p>
+                <div class="card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col">
+                    <img src="cert_dl.png" alt="NVIDIA DL Certificate" class="cert-img">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold mb-1">Fundamentals of Deep Learning</h3>
+                        <p class="text-cyan-400 text-sm font-mono mb-2">NVIDIA</p>
+                        <p class="text-slate-500 text-xs mb-4">Issued Nov 2025</p>
+                        <a href="https://learn.nvidia.com/certificates?id=phFZrj8EQvO_n3aw7t5QLQ" target="_blank" class="mt-auto block w-full py-2 bg-slate-700 hover:bg-slate-600 text-center rounded text-sm font-bold transition">
+                            Verify Credential <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
-                    <div class="text-blue-400 text-4xl mb-4"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <h3 class="text-lg font-bold mb-1">AI Essentials V2</h3>
-                    <p class="text-cyan-400 text-sm font-mono mb-2">Coursera</p>
-                    <p class="text-slate-500 text-xs">Issued Dec 2025</p>
+                <div class="card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col">
+                    <img src="cert_ml.png" alt="Stanford ML Certificate" class="cert-img">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold mb-1">Supervised Machine Learning</h3>
+                        <p class="text-cyan-400 text-sm font-mono mb-2">Stanford University</p>
+                        <p class="text-slate-500 text-xs mb-4">Issued Jan 2026</p>
+                        <a href="https://coursera.org/verify/8ERLR4VGZK4E" target="_blank" class="mt-auto block w-full py-2 bg-slate-700 hover:bg-slate-600 text-center rounded text-sm font-bold transition">
+                            Verify Credential <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="card bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
-                    <div class="text-yellow-400 text-4xl mb-4"><i class="fa-solid fa-language"></i></div>
-                    <h3 class="text-lg font-bold mb-1">German A2 Certificate</h3>
-                    <p class="text-cyan-400 text-sm font-mono mb-2">ÖSD</p>
-                    <p class="text-slate-500 text-xs">Certified</p>
+                <div class="card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col">
+                    <img src="cert_google.png" alt="Google Data Science Certificate" class="cert-img">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold mb-1">Foundations of Data Science</h3>
+                        <p class="text-cyan-400 text-sm font-mono mb-2">Google</p>
+                        <p class="text-slate-500 text-xs mb-4">Issued Jan 2026</p>
+                        <a href="https://coursera.org/verify/BDETWQE21XAS" target="_blank" class="mt-auto block w-full py-2 bg-slate-700 hover:bg-slate-600 text-center rounded text-sm font-bold transition">
+                            Verify Credential <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card bg-slate-800 rounded-xl overflow-hidden border border-slate-700 flex flex-col">
+                    <img src="cert_german.png" alt="German A2 Certificate" class="cert-img">
+                    <div class="p-6 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold mb-1">ÖSD Zertifikat A2</h3>
+                        <p class="text-cyan-400 text-sm font-mono mb-2">Österreichisches Sprachdiplom</p>
+                        <p class="text-slate-500 text-xs mb-4">Score: Gut Bestanden</p>
+                        <a href="cert_german.png" target="_blank" class="mt-auto block w-full py-2 bg-slate-700 hover:bg-slate-600 text-center rounded text-sm font-bold transition">
+                            View Certificate <i class="fa-solid fa-eye ml-1"></i>
+                        </a>
+                    </div>
                 </div>
 
             </div>
