@@ -1,5 +1,19 @@
 // data/projects.ts
-export const projects = [
+
+// 1. Define the strict TypeScript interface
+export type Project = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  tech: string[];
+  featured: boolean;
+  media?: string;     // The '?' makes this optional so TS doesn't panic
+  mediaType?: string; // The '?' makes this optional
+};
+
+// 2. Apply the type to the array
+export const projects: Project[] = [
   {
     id: "auto-driving",
     title: "Autonomous Driving Detection",
@@ -8,7 +22,7 @@ export const projects = [
     tech: ["YOLOv11", "SAHI", "PyTorch"],
     media: "/sahi_test_result.mp4",
     mediaType: "video",
-    featured: true, //  the card span 2 columns
+    featured: true,
   },
   {
     id: "genai-agent",
@@ -20,10 +34,10 @@ export const projects = [
     mediaType: "video",
     featured: true, 
   },
- {
+  {
     id: "tt-posture",
     title: "Ergonomics Monitoring AI Platform",
-    category: " Professional internship (Tunisie Telecom)",
+    category: " Professional Internship (Tunisie Telecom)",
     description: "Actively engineering an end-to-end computer vision platform to monitor employee posture and workplace ergonomics. Architecture leverages MediaPipe for high-performance, real-time pose estimation.",
     tech: ["MediaPipe", "Computer Vision", "Python", "Deep Learning"],
     featured: false,

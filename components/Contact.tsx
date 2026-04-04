@@ -18,9 +18,9 @@ export default function Contact() {
             viewport={{ once: true }}
             className="text-center md:text-left"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Let's Work <span className="text-cyan-400">Together</span></h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Let&apos;s Work <span className="text-cyan-400">Together</span></h2>
             <p className="text-slate-400 mb-8 max-w-md mx-auto md:mx-0">
-              Currently open to full-time AI Engineering and Data Science roles. Let's discuss how I can bring value to your engineering team.
+              Currently open to full-time AI Engineering and Data Science roles. Let&apos;s discuss how I can bring value to your engineering team.
             </p>
             
             <div className="flex flex-col gap-4">
