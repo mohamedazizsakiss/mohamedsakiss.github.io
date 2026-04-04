@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mohamed Aziz Sakiss | AI Engineering Portfolio
 
-## Getting Started
+> **Live Site:** [mohamedsakiss.me](https://mohamedsakiss.me)
 
-First, run the development server:
+Personal portfolio website designed to showcase production-ready engineering projects across Computer Vision, Distributed Big Data, and Autonomous GenAI Agents. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Built with a modern component-driven architecture, featuring interactive 3D WebGL elements, responsive layouts, and strict TypeScript data typing.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Framework:** Next.js (React)
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS
+* **Animations:** Framer Motion
+* **3D Integration:** Spline WebGL
+* **Deployment & CI/CD:** Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Architecture & Features
 
-## Learn More
+* **Progressive Enhancement:** Interactive 3D hero section optimized for desktop, falling back to a clean, high-performance layout on mobile devices.
+* **Dynamic Data Layer:** The "Bento Box" project grid and certifications list are rendered dynamically from a strict-typed TS data structure, separating logic from UI.
+* **Component Isolation:** Clean, maintainable codebase utilizing modern React components (`Hero`, `Projects`, `Certifications`, `Contact`).
+* **ATS Resume Integration:** Seamless PDF download functionality built directly into the UI for hiring managers.
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Local Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To run this application locally on your machine:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/mohamedazizsakiss/mohamedsakiss.github.io.git](https://github.com/mohamedazizsakiss/mohamedsakiss.github.io.git)
