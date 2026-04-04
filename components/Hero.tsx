@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const Spline = dynamic(() => import('@splinetool/react-spline'), { 
@@ -15,15 +15,16 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), {
 });
 
 export default function Hero() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
   };
+
 
   return (
     <section id="about" className="min-h-screen flex items-center pt-24 pb-10 relative overflow-hidden">
