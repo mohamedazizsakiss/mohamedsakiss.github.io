@@ -72,7 +72,7 @@ export default function Projects() {
               
               {/* Description & Action Button */}
               <div className="w-full lg:w-1/2 flex flex-col items-start">
-                <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-2xl">
+                <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-2xl whitespace-pre-wrap">
                   {project.description}
                 </p>
                 

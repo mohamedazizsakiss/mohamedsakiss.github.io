@@ -52,11 +52,11 @@ export const projects: Project[] = [
   },
   {
     id: "brain-tumor",
-    title: "Brain Tumor Classification",
-    category: "Medical AI",
-    description: "Ensemble Deep Learning architecture combining VGG16 & ResNet50. Implemented a custom Channel Attention Mechanism to detect Glioma/Meningioma.",
-    tech: ["TensorFlow", "Attention", "Medical Imaging"],
-    featured: false,
+    title: "Secure Brain Tumor Classification System",
+    category: "Medical AI & Blockchain",
+    description: "Developed a secure medical AI application that automates the classification of Brain Tumors (Glioma, Meningioma, Pituitary). The architecture utilizes a Parallel Ensemble Model, fusing features from VGG16 and ResNet50 backbones with a custom Channel Attention (SE) block for high diagnostic accuracy.\n\nEngineered a decentralized ledger (NeuroChain) where the model's prediction and the hash of the MRI image are instantly anchored on a blockchain to prevent data tampering. Features an end-to-end Streamlit workflow for real-time image upload, instant inference, and automatic blockchain transaction generation.",
+    tech: ["TensorFlow", "Blockchain", "Streamlit", "OpenCV", "Python"],
+    featured: true,
   },
   {
     id: "fire-detection",
