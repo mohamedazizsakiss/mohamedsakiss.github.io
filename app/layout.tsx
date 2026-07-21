@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Albert_Sans, JetBrains_Mono } from "next/font/google";
+import { Outfit, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  variable: "--font-outfit",
   display: "swap",
 });
 
-const albert = Albert_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-albert",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -35,9 +35,8 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
       </head>
-      <body className={`${bricolage.variable} ${albert.variable} ${jetbrains.variable} selection:bg-accent selection:text-white`}>
-        {/* Continuous Broadsheet Wrapper */}
-        <div className="min-h-screen border-l border-r border-structural mx-auto max-w-7xl flex flex-col md:flex-row">
+      <body className={`${outfit.variable} ${inter.variable} ${jetbrains.variable} bg-surface-base text-text-primary selection:bg-accent selection:text-surface-base`}>
+        <div className="min-h-screen flex flex-col w-full px-4 sm:px-8 lg:px-16">
           {children}
         </div>
       </body>

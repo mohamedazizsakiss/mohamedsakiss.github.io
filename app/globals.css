@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-base: #FAFAFA;
-  --color-ink-primary: #111111;
-  --color-ink-secondary: #737373;
-  --color-structural: #E5E5E5;
-  --color-accent: #0033FF;
+  --color-surface-base: #1A1B22;
+  --color-surface-elevated: #282A36;
+  --color-accent: #F9A826;
+  --color-text-primary: #F8F9FA;
+  --color-text-secondary: #9BA1A6;
+  --color-border: rgba(255, 255, 255, 0.08);
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui;
-  --font-body: var(--font-albert), ui-sans-serif, system-ui;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular;
 }
 
 body {
-  background: var(--color-base);
-  color: var(--color-ink-primary);
+  background-color: var(--color-surface-base);
+  color: var(--color-text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -22,15 +23,15 @@ body {
 
 /* Base utility classes for easier targeting */
 .border-structural {
-  border-color: var(--color-structural);
+  border-color: var(--color-border);
 }
 
-.text-ink-primary {
-  color: var(--color-ink-primary);
+.text-primary {
+  color: var(--color-text-primary);
 }
 
-.text-ink-secondary {
-  color: var(--color-ink-secondary);
+.text-secondary {
+  color: var(--color-text-secondary);
 }
 
 .text-accent {

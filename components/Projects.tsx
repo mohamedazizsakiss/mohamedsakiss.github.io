@@ -1,81 +1,122 @@
-// components/Projects.tsx
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
+import { Reveal } from "./Reveal";
 
 export default function Projects() {
+  const [activeDemo, setActiveDemo] = useState<number | null>(null);
+
+  const toggleDemo = (index: number) => {
+    setActiveDemo(activeDemo === index ? null : index);
+  };
+
   return (
-    <section id="projects" className="bg-[var(--color-base)] relative border-b border-structural">
-      
-      <div className="p-8 lg:p-12 xl:p-16 border-b border-structural">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="max-w-2xl"
-        >
-          <h2 className="text-4xl lg:text-5xl font-black mb-4 tracking-tighter text-ink-primary" style={{ fontFamily: 'var(--font-bricolage)' }}>
-            Featured Engineering Work
+    <section 
+      id="projects" 
+      className="bg-surface-base relative border-b border-structural pt-24 pb-32"
+    >
+      <div className="mb-16">
+        <Reveal>
+          <h2 className="text-4xl lg:text-[4rem] font-black tracking-tighter text-text-primary leading-none" style={{ fontFamily: 'var(--font-outfit)' }}>
+            Selected Works.
           </h2>
-          <p className="text-ink-secondary text-lg">A showcase of production-ready systems, ranging from embedded edge AI to distributed big data pipelines.</p>
-        </motion.div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="text-text-secondary text-lg mt-4 max-w-xl font-light">
+            A showcase of production-ready systems, ranging from embedded edge AI to distributed big data pipelines.
+          </p>
+        </Reveal>
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col relative z-10 w-full border-t border-structural">
         {projects.map((project, index) => (
-          <motion.div
+          <div
             key={project.id}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="grid grid-cols-1 lg:grid-cols-12 border-b border-structural last:border-b-0 group"
+            className="group flex flex-col py-12 lg:py-20 border-b border-structural"
           >
-            {/* Metadata Column */}
-            <div className="lg:col-span-4 p-8 lg:p-12 xl:p-16 border-b lg:border-b-0 lg:border-r border-structural flex flex-col justify-between">
-              <div>
-                <div className="text-ink-primary text-[10px] font-mono tracking-widest uppercase mb-6 border border-structural inline-block px-2 py-1">
+            {/* Header: Title and Metadata */}
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 lg:mb-12">
+              <h3 
+                className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary group-hover:text-accent transition-colors duration-500" 
+                style={{ fontFamily: 'var(--font-outfit)' }}
+              >
+                {project.title}
+              </h3>
+
+              {/* Desktop Metadata */}
+              <div className="hidden lg:flex flex-col items-end text-right">
+                <span className="text-text-secondary text-sm font-mono tracking-wider mb-2 uppercase">
                   {project.category}
-                </div>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {project.tech.map((tech) => (
-                    <span key={tech} className="text-ink-secondary text-xs font-mono tracking-wider">
+                </span>
+                <div className="flex gap-2">
+                  {project.tech.slice(0, 3).map((tech) => (
+                    <span key={tech} className="text-text-secondary opacity-60 text-[10px] font-mono tracking-wider border border-structural px-2 py-1 rounded-sm">
                       {tech}
-                      <span className="text-structural ml-2 last:hidden">/</span>
                     </span>
                   ))}
                 </div>
               </div>
             </div>
-            
-            {/* Content Column */}
-            <div className="lg:col-span-8 p-8 lg:p-12 xl:p-16 bg-[#FAFAFA] group-hover:bg-[#F2F2F2] transition-colors duration-500">
-              <h3 className="text-3xl font-black mb-6 text-ink-primary tracking-tight" style={{ fontFamily: 'var(--font-bricolage)' }}>
-                {project.title}
-              </h3>
-              <p className="text-ink-secondary text-lg mb-10 leading-relaxed max-w-3xl">
-                {project.description}
-              </p>
-              
-              {project.media && project.mediaType === "video" && (
-                <div className="border border-structural overflow-hidden bg-[#E5E5E5] relative aspect-video">
-                  <div className="absolute top-4 right-4 text-[10px] font-mono text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
-                    Preview_Render.mp4
-                  </div>
-                  <video 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
-                  >
-                    <source src={project.media} type="video/mp4" />
-                  </video>
-                </div>
-              )}
+
+            {/* Mobile Metadata (Hidden on Desktop) */}
+            <div className="lg:hidden flex items-center justify-between mb-6">
+              <span className="text-accent text-[10px] font-mono tracking-widest uppercase border border-structural px-2 py-1 rounded-sm">
+                {project.category}
+              </span>
             </div>
-          </motion.div>
+
+            {/* Content & Demo Area */}
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+              
+              {/* Description & Action Button */}
+              <div className="w-full lg:w-1/2 flex flex-col items-start">
+                <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-2xl">
+                  {project.description}
+                </p>
+                
+                {project.media && project.mediaType === "video" && (
+                  <button 
+                    onClick={() => toggleDemo(index)}
+                    className="px-6 py-4 border border-structural hover:border-accent text-text-primary hover:text-accent transition-all duration-300 text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-3 rounded-sm group/btn"
+                  >
+                    {activeDemo === index ? "Close Demo" : "Watch Demo"}
+                    <i className={`fa-solid ${activeDemo === index ? 'fa-xmark' : 'fa-play'} group-hover/btn:scale-110 transition-transform`}></i>
+                  </button>
+                )}
+              </div>
+
+              {/* Expandable Video Container */}
+              <div className="w-full lg:w-1/2">
+                <AnimatePresence>
+                  {activeDemo === index && project.media && project.mediaType === "video" && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+                      className="overflow-hidden border border-structural bg-surface-elevated rounded-sm relative"
+                    >
+                      <div className="absolute top-4 right-4 text-[10px] font-mono text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
+                        {project.id}.mp4
+                      </div>
+                      <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full aspect-video object-cover"
+                      >
+                        <source src={project.media} type="video/mp4" />
+                      </video>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+            </div>
+          </div>
         ))}
       </div>
     </section>
