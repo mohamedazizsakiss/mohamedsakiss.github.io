@@ -2,13 +2,14 @@
 
 import { motion, Variants } from "framer-motion";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const Spline = dynamic(() => import('@splinetool/react-spline'), { 
   ssr: false,
   loading: () => (
-    <div className="w-full h-[400px] md:h-[600px] flex items-center justify-center border border-cyan-900/30 rounded-2xl bg-slate-900/20 backdrop-blur-sm">
-      <div className="text-cyan-500 animate-pulse font-mono text-sm">
-        [ Initializing AI Core... ]
+    <div className="w-full h-full flex items-center justify-center bg-[var(--color-base)]">
+      <div className="text-ink-secondary font-mono text-xs tracking-widest uppercase animate-pulse">
+        [ Initializing Model... ]
       </div>
     </div>
   )
@@ -25,81 +26,83 @@ export default function Hero() {
     visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
   };
 
-
   return (
-    <section id="about" className="min-h-screen flex items-center pt-24 pb-10 relative overflow-hidden">
+    <section id="about" className="min-h-screen grid grid-cols-1 lg:grid-cols-2 relative border-b border-structural">
       
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-900/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-4 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
-        
-        {/* LEFT COLUMN: Text and Call to Actions */}
+      {/* LEFT COLUMN: Text and Call to Actions */}
+      <div className="flex flex-col justify-center p-8 lg:p-12 xl:p-16 border-b lg:border-b-0 lg:border-r border-structural bg-[var(--color-base)]">
         <motion.div 
-          className="text-left"
+          className="text-left w-full"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           
-          {/* Profile Picture & Badge aligned together */}
-          <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center gap-5 mb-8">
-            <div className="relative inline-block">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-md opacity-40 -z-10"></div>
-              
-              <img src="/sakiss.jpeg" alt="Mohamed Aziz Sakiss" className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-slate-700 object-cover relative z-10 shadow-xl" />
-            </div>
+          {/* Profile Picture & Badge */}
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-12">
+            <img 
+              src="/sakiss.jpeg" 
+              alt="Mohamed Aziz Sakiss" 
+              className="w-16 h-16 grayscale border border-structural object-cover" 
+            />
             
-            <div className="inline-block px-4 py-1.5 text-xs font-semibold text-cyan-400 bg-slate-800/50 backdrop-blur-md rounded-full border border-cyan-800/50 shadow-lg">
+            <div className="inline-block px-3 py-1.5 text-[10px] font-mono text-ink-primary uppercase tracking-widest border border-structural">
               <span className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex h-1.5 w-1.5 bg-accent"></span>
                 </span>
                 Open to Full-Time Opportunities
               </span>
             </div>
           </motion.div>
           
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-              Mohamed Aziz Sakiss
-            </span>
+          <motion.h1 
+            variants={itemVariants} 
+            className="text-5xl lg:text-7xl xl:text-[5rem] font-black mb-8 tracking-tighter leading-[0.9] text-ink-primary" 
+            style={{ fontFamily: 'var(--font-bricolage)' }}
+          >
+            Mohamed Aziz Sakiss
           </motion.h1>
           
-          <motion.p variants={itemVariants} className="text-xl text-slate-400 mb-10 leading-relaxed font-light max-w-xl">
-            AI & Data Science Engineer dedicated to building scalable, production-ready intelligent systems. Expertise spans <span className="text-slate-200 font-medium">Advanced Computer Vision</span>, <span className="text-slate-200 font-medium">Distributed Big Data</span>, and <span className="text-slate-200 font-medium">Autonomous GenAI Agents</span>.
+          <motion.p variants={itemVariants} className="text-lg lg:text-xl text-ink-secondary mb-12 leading-relaxed font-light max-w-xl">
+            AI & Data Science Engineer dedicated to building scalable, production-ready intelligent systems. Expertise spans <strong className="text-ink-primary font-medium">Advanced Computer Vision</strong>, <strong className="text-ink-primary font-medium">Distributed Big Data</strong>, and <strong className="text-ink-primary font-medium">Autonomous GenAI Agents</strong>.
           </motion.p>
           
           <motion.div variants={itemVariants} className="flex flex-wrap gap-4 items-center">
-            <a href="#projects" className="group relative px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] overflow-hidden">
-              <span className="relative z-10">View Portfolio</span>
-            </a>
+            <Link href="#projects" className="px-6 py-4 bg-ink-primary text-white text-xs font-mono font-bold tracking-widest uppercase hover:bg-accent transition-colors">
+              View Portfolio
+            </Link>
             <div className="flex gap-4">
-              <a href="mailto:contact@mohamedsakiss.me" className="px-8 py-3 bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-bold transition-all border border-slate-700 hover:border-slate-500">
-                Contact Me
+              <a href="mailto:contact@mohamedsakiss.me" className="px-6 py-4 border border-structural text-ink-primary text-xs font-mono font-bold tracking-widest uppercase hover:border-ink-primary transition-colors">
+                Contact
               </a>
-              <a href="https://www.linkedin.com/in/mohamed-aziz-sakiss-58a35b319" target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-slate-800/80 hover:bg-[#0077b5] text-white rounded-lg font-bold transition-all border border-slate-700 hover:border-transparent">
-                <i className="fa-brands fa-linkedin text-xl"></i>
+              <a href="https://www.linkedin.com/in/mohamed-aziz-sakiss-58a35b319" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center border border-structural text-ink-primary hover:text-white hover:bg-[#0077b5] hover:border-[#0077b5] transition-all">
+                <i className="fa-brands fa-linkedin-in text-lg"></i>
               </a>
-              <a href="https://github.com/mohamedazizsakiss" target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-slate-800/80 hover:bg-[#24292e] text-white rounded-lg font-bold transition-all border border-slate-700 hover:border-transparent">
-                <i className="fa-brands fa-github text-xl"></i>
+              <a href="https://github.com/mohamedazizsakiss" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center border border-structural text-ink-primary hover:text-white hover:bg-[#24292e] hover:border-[#24292e] transition-all">
+                <i className="fa-brands fa-github text-lg"></i>
               </a>
             </div>
           </motion.div>
         </motion.div>
+      </div>
 
-        {/* RIGHT COLUMN: Interactive 3D Model */}
+      {/* RIGHT COLUMN: Interactive 3D Model */}
+      <div className="h-[400px] lg:h-auto w-full relative bg-[#F2F2F2] flex items-center justify-center overflow-hidden">
+        <div className="absolute top-8 right-8 text-[10px] font-mono text-ink-secondary uppercase tracking-widest z-10 pointer-events-none mix-blend-difference">
+          Model Viewer / Active
+        </div>
         <motion.div 
-          className="h-[400px] md:h-[600px] w-full relative hidden lg:block"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+          className="w-full h-full relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
           <Spline scene="https://prod.spline.design/5ZVdBWNdsgpTwH07/scene.splinecode" />
         </motion.div>
-
       </div>
+
     </section>
   );
 }
