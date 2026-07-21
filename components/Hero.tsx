@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="lg:col-span-6 lg:col-start-1 flex flex-col justify-center">
           <div className="mb-8 lg:mb-16">
             <Reveal delay={0.1}>
-              <div className="w-12 h-12 bg-accent rounded-br-3xl rounded-tl-xl rounded-tr-sm rounded-bl-sm mb-12 flex items-center justify-center">
+              <div className="hidden lg:flex w-12 h-12 bg-accent rounded-br-3xl rounded-tl-xl rounded-tr-sm rounded-bl-sm mb-12 items-center justify-center">
                 <span className="text-surface-base font-bold font-mono text-xl">M</span>
               </div>
             </Reveal>
