@@ -21,7 +21,7 @@ export default function Certifications() {
 
       <div className="flex flex-col border-t border-structural">
         {certifications.map((cert, index) => (
-          <Reveal key={cert.id} delay={0.1 * index}>
+          <Reveal key={cert.id} delay={0.1 * index} width="100%">
           <a
             href={cert.link}
             target="_blank"
