@@ -35,12 +35,12 @@ export const projects: Project[] = [
     featured: true, 
   },
   {
-    id: "tt-posture",
-    title: "Ergonomics Monitoring AI Platform",
-    category: " Professional Internship (Tunisie Telecom)",
-    description: "Actively engineering an end-to-end computer vision platform to monitor employee posture and workplace ergonomics. Architecture leverages MediaPipe for high-performance, real-time pose estimation.",
-    tech: ["MediaPipe", "Computer Vision", "Python", "Deep Learning"],
-    featured: false,
+    id: "ergofit",
+    title: "ErgoFit — AI Ergonomics Platform",
+    category: "Professional Internship (Tunisie Telecom)",
+    description: "Real-Time Vision & ML Pipeline: Engineered ErgoFit to monitor live ergonomics, combining MediaPipe pose landmark extraction with a Random Forest classifier to achieve 98% posture detection accuracy.\n\nHybrid RAG & Hallucination Prevention: Developed \"ErgoCoach,\" an LLM assistant that fuses structured PostgreSQL data (user error patterns) with certified ergonomic PDFs to generate medically grounded advice while strictly preventing model hallucinations.\n\nAutonomous Reporting Agent: Designed a scheduled AI agent that analyzes temporal database metrics to generate and dispatch personalized weekly reports, offering actionable insights for continuous posture improvement.\n\nArchitecture & Live Deployment: Built a hybrid backend (Node.js/FastAPI), containerized microservices using Docker, and automated CI/CD pipelines via GitHub Actions to launch the platform live at ergofit.live.",
+    tech: ["MediaPipe", "FastAPI", "Node.js", "Docker", "RAG", "PostgreSQL"],
+    featured: true,
   },
   {
     id: "fraud-system",
