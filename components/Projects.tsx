@@ -96,8 +96,8 @@ export default function Projects() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
               
               {/* Description & Action Button */}
-              <div className="w-full lg:w-1/2 flex flex-col items-start">
-                <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-2xl whitespace-pre-wrap">
+              <div className={`w-full ${project.media ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
+                <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-4xl whitespace-pre-wrap">
                   {renderDescription(project.description)}
                 </p>
                 
@@ -113,32 +113,34 @@ export default function Projects() {
               </div>
 
               {/* Expandable Video Container */}
-              <div className="w-full lg:w-1/2">
-                <AnimatePresence>
-                  {activeDemo === index && project.media && project.mediaType === "video" && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
-                      className="overflow-hidden border border-structural bg-surface-elevated rounded-sm relative"
-                    >
-                      <div className="absolute top-4 right-4 text-[10px] font-mono text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
-                        {project.id}.mp4
-                      </div>
-                      <video 
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline
-                        className="w-full aspect-video object-cover"
+              {project.media && (
+                <div className="w-full lg:w-1/2">
+                  <AnimatePresence>
+                    {activeDemo === index && project.mediaType === "video" && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+                        className="overflow-hidden border border-structural bg-surface-elevated rounded-sm relative"
                       >
-                        <source src={project.media} type="video/mp4" />
-                      </video>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                        <div className="absolute top-4 right-4 text-[10px] font-mono text-white mix-blend-difference uppercase tracking-widest z-10 pointer-events-none">
+                          {project.id}.mp4
+                        </div>
+                        <video 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline
+                          className="w-full aspect-video object-cover"
+                        >
+                          <source src={project.media} type="video/mp4" />
+                        </video>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
 
             </div>
             </Reveal>
