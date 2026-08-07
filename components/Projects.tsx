@@ -56,7 +56,7 @@ export default function Projects() {
         {projects.map((project, index) => (
           <div
             key={project.id}
-            className="group flex flex-col py-12 lg:py-20 border-b border-structural"
+            className="group flex flex-col py-12 lg:py-20 border-b border-structural last:border-b-0"
           >
             {/* Header: Title and Metadata */}
             <Reveal delay={0.1} width="100%">
