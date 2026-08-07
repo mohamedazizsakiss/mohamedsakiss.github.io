@@ -15,6 +15,14 @@ export type Project = {
 // 2. Apply the type to the array
 export const projects: Project[] = [
   {
+    id: "ergofit",
+    title: "ErgoFit — AI Ergonomics Platform",
+    category: "Professional Internship (Tunisie Telecom)",
+    description: "Real-Time Vision & ML Pipeline: Engineered ErgoFit to monitor live ergonomics, combining MediaPipe pose landmark extraction with a Random Forest classifier to achieve 98% posture detection accuracy.\n\nHybrid RAG & Hallucination Prevention: Developed \"ErgoCoach,\" an LLM assistant that fuses structured PostgreSQL data (user error patterns) with certified ergonomic PDFs to generate medically grounded advice while strictly preventing model hallucinations.\n\nAutonomous Reporting Agent: Designed a scheduled AI agent that analyzes temporal database metrics to generate and dispatch personalized weekly reports, offering actionable insights for continuous posture improvement.\n\nArchitecture & Live Deployment: Built a hybrid backend (Node.js/FastAPI), containerized microservices using Docker, and automated CI/CD pipelines via GitHub Actions to launch the platform live at ergofit.live.",
+    tech: ["MediaPipe", "FastAPI", "Node.js", "Docker", "RAG", "PostgreSQL"],
+    featured: true,
+  },
+  {
     id: "auto-driving",
     title: "Autonomous Driving Detection",
     category: "Computer Vision",
@@ -33,14 +41,6 @@ export const projects: Project[] = [
     media: "/chatbot.mp4",
     mediaType: "video",
     featured: true, 
-  },
-  {
-    id: "ergofit",
-    title: "ErgoFit — AI Ergonomics Platform",
-    category: "Professional Internship (Tunisie Telecom)",
-    description: "Real-Time Vision & ML Pipeline: Engineered ErgoFit to monitor live ergonomics, combining MediaPipe pose landmark extraction with a Random Forest classifier to achieve 98% posture detection accuracy.\n\nHybrid RAG & Hallucination Prevention: Developed \"ErgoCoach,\" an LLM assistant that fuses structured PostgreSQL data (user error patterns) with certified ergonomic PDFs to generate medically grounded advice while strictly preventing model hallucinations.\n\nAutonomous Reporting Agent: Designed a scheduled AI agent that analyzes temporal database metrics to generate and dispatch personalized weekly reports, offering actionable insights for continuous posture improvement.\n\nArchitecture & Live Deployment: Built a hybrid backend (Node.js/FastAPI), containerized microservices using Docker, and automated CI/CD pipelines via GitHub Actions to launch the platform live at ergofit.live.",
-    tech: ["MediaPipe", "FastAPI", "Node.js", "Docker", "RAG", "PostgreSQL"],
-    featured: true,
   },
   {
     id: "fraud-system",
