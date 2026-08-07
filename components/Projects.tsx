@@ -37,6 +37,7 @@ export default function Projects() {
             className="group flex flex-col py-12 lg:py-20 border-b border-structural"
           >
             {/* Header: Title and Metadata */}
+            <Reveal delay={0.1}>
             <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 lg:mb-12">
               <h3 
                 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary group-hover:text-accent transition-colors duration-500" 
@@ -59,6 +60,7 @@ export default function Projects() {
                 </div>
               </div>
             </div>
+            </Reveal>
 
             {/* Mobile Metadata (Hidden on Desktop) */}
             <div className="lg:hidden flex items-center justify-between mb-6">
@@ -68,6 +70,7 @@ export default function Projects() {
             </div>
 
             {/* Content & Demo Area */}
+            <Reveal delay={0.2}>
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
               
               {/* Description & Action Button */}
@@ -116,6 +119,7 @@ export default function Projects() {
               </div>
 
             </div>
+            </Reveal>
           </div>
         ))}
       </div>
