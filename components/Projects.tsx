@@ -5,6 +5,29 @@ import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { Reveal } from "./Reveal";
 
+// Helper to render description text with clickable URLs
+function renderDescription(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+|[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) => {
+    if (urlRegex.test(part)) {
+      const href = part.startsWith('http') ? part : `https://${part}`;
+      return (
+        <a
+          key={i}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent hover:underline font-medium transition-colors"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export default function Projects() {
   const [activeDemo, setActiveDemo] = useState<number | null>(null);
 
@@ -76,7 +99,7 @@ export default function Projects() {
               {/* Description & Action Button */}
               <div className="w-full lg:w-1/2 flex flex-col items-start">
                 <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-2xl whitespace-pre-wrap">
-                  {project.description}
+                  {renderDescription(project.description)}
                 </p>
                 
                 {project.media && project.mediaType === "video" && (
