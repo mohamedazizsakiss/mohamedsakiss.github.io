@@ -7,15 +7,14 @@ import { Reveal } from "./Reveal";
 
 // Helper to render description text with clickable URLs
 function renderDescription(text: string) {
-  const urlRegex = /(https?:\/\/[^\s]+|[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g;
-  const parts = text.split(urlRegex);
+  const targetUrl = "ergofit.live";
+  const parts = text.split(new RegExp(`(${targetUrl})`, 'g'));
   return parts.map((part, i) => {
-    if (urlRegex.test(part)) {
-      const href = part.startsWith('http') ? part : `https://${part}`;
+    if (part === targetUrl) {
       return (
         <a
           key={i}
-          href={href}
+          href={`https://${part}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent hover:underline font-medium transition-colors"
