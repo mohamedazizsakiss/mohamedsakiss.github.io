@@ -47,8 +47,8 @@ export default function Contact() {
         <div className="flex flex-col items-start lg:items-center justify-center bg-surface-elevated p-8 lg:p-12 rounded-lg border border-structural">
           <Reveal delay={0.3} width="100%">
             <div className="flex flex-col items-center w-full">
-              <div className="p-4 border border-structural bg-white mb-6 transform hover:-translate-y-2 transition-transform duration-300 rounded-md shadow-2xl">
-                <img src="/Resume-QR.png" alt="Scan to get CV" className="w-32 h-32 object-cover" />
+              <div className="border border-structural bg-white mb-6 transform hover:-translate-y-2 transition-transform duration-300 rounded-lg shadow-2xl overflow-hidden">
+                <img src="/Resume-QR.png" alt="Scan to get CV" className="w-48 h-48 lg:w-64 lg:h-64 object-contain" />
               </div>
               
               <p className="text-xs text-text-secondary mb-6 font-mono tracking-widest uppercase text-center">Scan for digital CV</p>
