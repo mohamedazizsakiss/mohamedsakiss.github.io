@@ -80,7 +80,7 @@ export default function Navbar() {
           {/* Right Action & Mobile Toggle */}
           <div className="flex items-center gap-4">
             <a 
-              href="/resume.pdf" 
+              href="/mohamed_aziz_resume.pdf" 
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:block px-4 py-2 bg-text-primary text-surface-base hover:bg-accent transition-colors text-[10px] font-mono font-bold tracking-widest uppercase rounded-full"
@@ -123,7 +123,7 @@ export default function Navbar() {
                 );
               })}
               <a 
-                href="/resume.pdf" 
+                href="/mohamed_aziz_resume.pdf" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 sm:hidden w-full text-center px-4 py-3 bg-text-primary text-surface-base hover:bg-accent transition-colors text-[10px] font-mono font-bold tracking-widest uppercase rounded-sm"

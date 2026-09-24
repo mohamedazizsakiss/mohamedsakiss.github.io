@@ -22,6 +22,13 @@ export const certifications = [
     link: "https://coursera.org/verify/V1NRC64W9EY8"
   },
   {
+    id: "nvidia-nlp",
+    title: "Building Transformer-Based NLP Applications",
+    issuer: "NVIDIA",
+    date: "Feb 2026",
+    link: "#"
+  },
+  {
     id: "google-data",
     title: "Foundations of Data Science",
     issuer: "Google",
@@ -43,10 +50,10 @@ export const certifications = [
     link: "https://learn.nvidia.com/certificates?id=phFZrj8EQvO_n3aw7t5QLQ"
   },
   {
-    id: "german-a2",
-    title: "ÖSD Zertifikat A2 (German)",
+    id: "german-b2",
+    title: "ÖSD Zertifikat B2 (German)",
     issuer: "Österreichisches Sprachdiplom",
-    date: "2020",
+    date: "2026",
     link: "/cert_german.png" 
   }
 ];

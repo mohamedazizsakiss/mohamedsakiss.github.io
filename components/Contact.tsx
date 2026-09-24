@@ -53,7 +53,7 @@ export default function Contact() {
               
               <p className="text-xs text-text-secondary mb-6 font-mono tracking-widest uppercase text-center">Scan for digital CV</p>
               
-              <a href="/resume.pdf" download="Mohamed_Aziz_Sakiss_Resume.pdf" className="w-full py-4 bg-text-primary text-surface-base hover:bg-accent transition-colors flex items-center justify-center gap-3 text-xs font-mono font-bold tracking-widest uppercase rounded-sm">
+              <a href="/mohamed_aziz_resume.pdf" download="Mohamed_Aziz_Sakiss_Resume.pdf" className="w-full py-4 bg-text-primary text-surface-base hover:bg-accent transition-colors flex items-center justify-center gap-3 text-xs font-mono font-bold tracking-widest uppercase rounded-sm">
                 <i className="fa-solid fa-download"></i> Download PDF
               </a>
             </div>

@@ -15,11 +15,27 @@ export type Project = {
 // 2. Apply the type to the array
 export const projects: Project[] = [
   {
+    id: "jobpilot",
+    title: "JobPilot: Autonomous Agentic SaaS",
+    category: "Autonomous Agents",
+    description: "Building an agent that parses a resume and target job descriptions, then applies to matching roles on the user's behalf — cutting manual job-hunting time.\n\nBuilding a fully spoken mock-interview agent using OpenAI Whisper for listening and TTS for responding, making it feel like talking to an actual interviewer.\n\nOrchestrating multi-agent application logic in LangGraph behind a FastAPI backend serving the dashboard.",
+    tech: ["Python", "LangGraph", "FastAPI", "Whisper"],
+    featured: true,
+  },
+  {
     id: "ergofit",
     title: "ErgoFit — AI Ergonomics Platform",
     category: "Professional Internship (Tunisie Telecom)",
     description: "Real-Time Vision & ML Pipeline: Engineered ErgoFit to monitor live ergonomics, combining MediaPipe pose landmark extraction with a Random Forest classifier to achieve 98% posture detection accuracy.\n\nHybrid RAG & Hallucination Prevention: Developed \"ErgoCoach,\" an LLM assistant that fuses structured PostgreSQL data (user error patterns) with certified ergonomic PDFs to generate medically grounded advice while strictly preventing model hallucinations.\n\nAutonomous Reporting Agent: Designed a scheduled AI agent that analyzes temporal database metrics to generate and dispatch personalized weekly reports, offering actionable insights for continuous posture improvement.\n\nArchitecture & Live Deployment: Built a hybrid backend (Node.js/FastAPI), containerized microservices using Docker, and automated CI/CD pipelines via GitHub Actions to launch the platform live at ergofit.live.",
     tech: ["MediaPipe", "FastAPI", "Node.js", "Docker", "RAG", "PostgreSQL"],
+    featured: true,
+  },
+  {
+    id: "business-scalable",
+    title: "Software Development Intern",
+    category: "Professional Internship (Business Scalable)",
+    description: "Built and deployed RAG chatbots (LangChain, Gemini/OpenAI) that cut support response time and manual ticket load.\n\nBuilt data pipelines connecting REST APIs to backend systems for real-time processing.\n\nDocumented model performance and helped streamline the team's Docker/CI-CD deployment process.",
+    tech: ["LangChain", "Gemini/OpenAI", "Docker", "CI/CD"],
     featured: true,
   },
   {

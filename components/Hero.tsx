@@ -69,11 +69,11 @@ export default function Hero() {
             </div>
 
             <h3 className="text-2xl lg:text-3xl font-bold mb-6 text-primary leading-snug">
-              AI & Data Science Engineer, building intelligent systems.
+              AI engineer who ships full products, not just models.
             </h3>
 
             <p className="text-secondary leading-relaxed font-light mb-10 text-sm lg:text-base">
-              Dedicated to building scalable, production-ready systems. Expertise spans Advanced Computer Vision, Distributed Big Data, and Autonomous GenAI Agents.
+              Architecture, backend, and deployment included. Comfortable moving across computer vision, LLMs/RAG, and the infrastructure that gets them into production.
             </p>
 
             <Link href="#projects" className="text-accent font-bold text-sm tracking-wide hover:text-primary transition-colors flex items-center gap-3">
