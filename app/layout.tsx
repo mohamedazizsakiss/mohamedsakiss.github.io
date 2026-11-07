@@ -20,9 +20,43 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const SITE_URL = "https://www.mohamedsakiss.me";
+const TITLE = "Mohamed Aziz Sakiss | AI Engineer";
+const DESCRIPTION =
+  "AI engineer who ships full products, not just models: computer vision, LLMs/RAG and autonomous agents, from architecture to production deployment.";
+
 export const metadata: Metadata = {
-  title: "Mohamed Aziz Sakiss | AI Engineer",
-  description: "AI & Data Science Engineer Portfolio",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: [
+    "Mohamed Aziz Sakiss",
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "Computer Vision",
+    "LLM",
+    "RAG",
+    "LangGraph",
+    "FastAPI",
+    "Next.js",
+    "Portfolio",
+  ],
+  authors: [{ name: "Mohamed Aziz Sakiss", url: SITE_URL }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Mohamed Aziz Sakiss",
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

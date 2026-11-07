@@ -6,6 +6,7 @@ import Link from "next/link";
 
 const SECTIONS = [
   { id: "about", label: "Profile" },
+  { id: "experience", label: "Experience" },
   { id: "projects", label: "Selected Works" },
   { id: "certifications", label: "Credentials" },
   { id: "contact", label: "Contact" },
