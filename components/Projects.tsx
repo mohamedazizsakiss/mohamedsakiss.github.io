@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { Reveal } from "./Reveal";
@@ -29,6 +30,8 @@ function renderDescription(text: string) {
 
 export default function Projects() {
   const [activeDemo, setActiveDemo] = useState<number | null>(null);
+  // Images that failed to load (e.g. asset not uploaded yet) are hidden instead of showing a broken frame
+  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
 
   const toggleDemo = (index: number) => {
     setActiveDemo(activeDemo === index ? null : index);
@@ -53,7 +56,11 @@ export default function Projects() {
       </div>
 
       <div className="flex flex-col relative z-10 w-full border-t border-structural">
-        {projects.map((project, index) => (
+        {projects.map((project, index) => {
+          const showImage =
+            project.mediaType === "image" && !!project.media && !brokenImages.has(project.id);
+          const hasSideMedia = (project.mediaType === "video" && !!project.media) || showImage;
+          return (
           <div
             key={project.id}
             className="group flex flex-col py-12 lg:py-20 border-b border-structural last:border-b-0"
@@ -96,7 +103,13 @@ export default function Projects() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
               
               {/* Description & Action Button */}
-              <div className={`w-full ${project.media ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
+              <div className={`w-full ${hasSideMedia ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
+                {project.role && (
+                  <span className="text-text-primary text-xs font-mono tracking-widest uppercase mb-4">
+                    <span className="text-text-secondary opacity-60">Role / </span>
+                    {project.role}
+                  </span>
+                )}
                 <p className="text-text-secondary text-lg leading-relaxed font-light mb-8 max-w-4xl whitespace-pre-wrap">
                   {renderDescription(project.description)}
                 </p>
@@ -110,10 +123,39 @@ export default function Projects() {
                     <i className={`fa-solid ${activeDemo === index ? 'fa-xmark' : 'fa-play'} group-hover/btn:scale-110 transition-transform`}></i>
                   </button>
                 )}
+
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-4 border border-structural hover:border-accent text-text-primary hover:text-accent transition-all duration-300 text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-3 rounded-sm group/btn"
+                  >
+                    Visit Live Site
+                    <i className="fa-solid fa-arrow-up-right-from-square group-hover/btn:scale-110 transition-transform"></i>
+                  </a>
+                )}
               </div>
 
+              {/* Static Thumbnail */}
+              {showImage && (
+                <div className="w-full lg:w-1/2 overflow-hidden border border-structural bg-surface-elevated rounded-sm relative">
+                  <Image
+                    src={project.media!}
+                    alt={`${project.title} preview`}
+                    width={1600}
+                    height={900}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="w-full aspect-video object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                    onError={() =>
+                      setBrokenImages((prev) => new Set(prev).add(project.id))
+                    }
+                  />
+                </div>
+              )}
+
               {/* Expandable Video Container */}
-              {project.media && (
+              {project.media && project.mediaType === "video" && (
                 <div className="w-full lg:w-1/2">
                   <AnimatePresence>
                     {activeDemo === index && project.mediaType === "video" && (
@@ -145,7 +187,8 @@ export default function Projects() {
             </div>
             </Reveal>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

@@ -9,11 +9,25 @@ export type Project = {
   tech: string[];
   featured: boolean;
   media?: string;     // The '?' makes this optional so TS doesn't panic
-  mediaType?: string; // The '?' makes this optional
+  mediaType?: "video" | "image";
+  role?: string;      // Role on client engagements
+  liveUrl?: string;   // Public production URL
 };
 
 // 2. Apply the type to the array
 export const projects: Project[] = [
+  {
+    id: "cles-auto-plus",
+    title: "Clés Auto + | Edge Architecture & Local SEO Transformation",
+    category: "Client Project · Web Infrastructure",
+    role: "Full-Stack & Infrastructure Engineer",
+    description: "Engineered a high-performance local web platform for an emergency automotive locksmith, focusing on technical SEO, robust edge routing, and conversion tracking.\n\nOrchestrated a zero-downtime DNS migration from a legacy Yellow Pages/Wix infrastructure to Vercel's Anycast edge network.\n\nBypassed failing registrar-level redirects by implementing Vercel edge-level HTTP 308 permanent redirects, seamlessly preserving 100% of the legacy domain's SEO authority.\n\nIntegrated Google Tag Manager (GTM) securely within the Next.js document head to facilitate Meta Ads pipeline tracking without hydration conflicts.\n\nDelivered a flawless mobile-first UI using Tailwind CSS, featuring custom GPU-accelerated scroll animations and standalone PWA safe-area routing.",
+    tech: ["Next.js 16", "Tailwind CSS", "Vercel Edge Network", "Google Tag Manager", "Advanced DNS"],
+    media: "/assets/projects/cles-auto-plus.webp",
+    mediaType: "image",
+    liveUrl: "https://clesautoplus.ca",
+    featured: true,
+  },
   {
     id: "jobpilot",
     title: "JobPilot: Autonomous Agentic SaaS",
