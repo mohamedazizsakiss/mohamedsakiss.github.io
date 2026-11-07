@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { Reveal } from "./Reveal";
@@ -30,8 +29,6 @@ function renderDescription(text: string) {
 
 export default function Projects() {
   const [activeDemo, setActiveDemo] = useState<number | null>(null);
-  // Images that failed to load (e.g. asset not uploaded yet) are hidden instead of showing a broken frame
-  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
 
   const toggleDemo = (index: number) => {
     setActiveDemo(activeDemo === index ? null : index);
@@ -56,11 +53,7 @@ export default function Projects() {
       </div>
 
       <div className="flex flex-col relative z-10 w-full border-t border-structural">
-        {projects.map((project, index) => {
-          const showImage =
-            project.mediaType === "image" && !!project.media && !brokenImages.has(project.id);
-          const hasSideMedia = (project.mediaType === "video" && !!project.media) || showImage;
-          return (
+        {projects.map((project, index) => (
           <div
             key={project.id}
             className="group flex flex-col py-12 lg:py-20 border-b border-structural last:border-b-0"
@@ -76,13 +69,13 @@ export default function Projects() {
               </h3>
 
               {/* Desktop Metadata */}
-              <div className="hidden lg:flex flex-col items-end text-right">
+              <div className="hidden lg:flex flex-col items-end text-right shrink-0 max-w-xs ml-12">
                 <span className="text-text-secondary text-sm font-mono tracking-wider mb-2 uppercase">
                   {project.category}
                 </span>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
                   {project.tech.slice(0, 3).map((tech) => (
-                    <span key={tech} className="text-text-secondary opacity-60 text-[10px] font-mono tracking-wider border border-structural px-2 py-1 rounded-sm">
+                    <span key={tech} className="whitespace-nowrap text-text-secondary opacity-60 text-[10px] font-mono tracking-wider border border-structural px-2 py-1 rounded-sm">
                       {tech}
                     </span>
                   ))}
@@ -103,7 +96,7 @@ export default function Projects() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
               
               {/* Description & Action Button */}
-              <div className={`w-full ${hasSideMedia ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
+              <div className={`w-full ${project.media ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
                 {project.role && (
                   <span className="text-text-primary text-xs font-mono tracking-widest uppercase mb-4">
                     <span className="text-text-secondary opacity-60">Role / </span>
@@ -136,23 +129,6 @@ export default function Projects() {
                   </a>
                 )}
               </div>
-
-              {/* Static Thumbnail */}
-              {showImage && (
-                <div className="w-full lg:w-1/2 overflow-hidden border border-structural bg-surface-elevated rounded-sm relative">
-                  <Image
-                    src={project.media!}
-                    alt={`${project.title} preview`}
-                    width={1600}
-                    height={900}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="w-full aspect-video object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                    onError={() =>
-                      setBrokenImages((prev) => new Set(prev).add(project.id))
-                    }
-                  />
-                </div>
-              )}
 
               {/* Expandable Video Container */}
               {project.media && project.mediaType === "video" && (
@@ -187,8 +163,7 @@ export default function Projects() {
             </div>
             </Reveal>
           </div>
-          );
-        })}
+        ))}
       </div>
     </section>
   );
