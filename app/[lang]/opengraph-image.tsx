@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
+import { hasLocale, defaultLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
 
-// Link-preview image shown when the portfolio is shared (LinkedIn, WhatsApp, X, Slack…)
+// Link-preview image shown when the portfolio is shared (LinkedIn, WhatsApp, X, Slack…), one per language.
 export const alt = "Mohamed Aziz Sakiss: AI engineer who ships full products, not just models";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -10,7 +12,10 @@ const ACCENT = "#F9A826";
 const TEXT = "#F8F9FA";
 const MUTED = "#9BA1A6";
 
-export default function Image() {
+export default async function Image({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const { meta } = getDictionary(hasLocale(lang) ? lang : defaultLocale);
+
   return new ImageResponse(
     (
       <div
@@ -50,14 +55,12 @@ export default function Image() {
             Mohamed Aziz Sakiss.
           </div>
           <div style={{ display: "flex", width: 96, height: 10, background: ACCENT, marginTop: 36, marginBottom: 36 }} />
-          <div style={{ display: "flex", color: TEXT, fontSize: 40, fontWeight: 600 }}>
-            AI engineer who ships full products, not just models.
+          <div style={{ display: "flex", color: TEXT, fontSize: 38, fontWeight: 600, lineHeight: 1.25 }}>
+            {meta.ogTagline}
           </div>
         </div>
 
-        <div style={{ display: "flex", color: MUTED, fontSize: 26, letterSpacing: 2 }}>
-          Computer Vision · LLMs & RAG · Autonomous Agents · MLOps
-        </div>
+        <div style={{ display: "flex", color: MUTED, fontSize: 26, letterSpacing: 2 }}>{meta.ogTopics}</div>
       </div>
     ),
     { ...size }

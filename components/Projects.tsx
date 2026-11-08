@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "@/data/projects";
 import { Reveal } from "./Reveal";
 import { HighlightList } from "./Highlight";
+import type { Dictionary } from "@/i18n/dictionaries";
 
 const actionClass =
   "px-6 py-4 border border-structural hover:border-accent text-text-primary hover:text-accent transition-all duration-300 text-xs font-mono font-bold tracking-widest uppercase flex items-center gap-3 rounded-sm group/btn";
@@ -21,7 +22,7 @@ function TechTags({ tech, className = "" }: { tech: string[]; className?: string
   );
 }
 
-export default function Projects() {
+export default function Projects({ t }: { t: Dictionary["projects"] }) {
   const [activeDemo, setActiveDemo] = useState<number | null>(null);
 
   const toggleDemo = (index: number) => {
@@ -36,18 +37,19 @@ export default function Projects() {
       <div className="mb-16">
         <Reveal>
           <h2 className="text-4xl lg:text-[4rem] font-black tracking-tighter text-text-primary leading-none" style={{ fontFamily: 'var(--font-outfit)' }}>
-            Selected Works.
+            {t.title}
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="text-text-secondary text-lg mt-4 max-w-xl font-light">
-            A showcase of production-ready systems, ranging from embedded edge AI to distributed big data pipelines.
+            {t.subtitle}
           </p>
         </Reveal>
       </div>
 
       <div className="flex flex-col relative z-10 w-full border-t border-structural">
         {projects.map((project, index) => {
+          const text = t.items[project.id];
           const hasVideo = project.mediaType === "video" && !!project.media;
           const hasActions = hasVideo || !!project.liveUrl || !!project.githubUrl;
 
@@ -63,13 +65,13 @@ export default function Projects() {
                     className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary group-hover:text-accent transition-colors duration-500"
                     style={{ fontFamily: 'var(--font-outfit)' }}
                   >
-                    {project.title}
+                    {text.title}
                   </h3>
 
                   {/* Desktop Metadata */}
                   <div className="hidden lg:flex flex-col items-end text-right shrink-0 max-w-xs ml-12">
                     <span className="text-text-secondary text-sm font-mono tracking-wider mb-2 uppercase">
-                      {project.category}
+                      {text.category}
                     </span>
                     <TechTags tech={project.tech.slice(0, 3)} className="justify-end" />
                   </div>
@@ -79,7 +81,7 @@ export default function Projects() {
               {/* Mobile Metadata (Hidden on Desktop) */}
               <div className="lg:hidden flex flex-col items-start gap-3 mb-8">
                 <span className="text-accent text-[10px] font-mono tracking-widest uppercase border border-structural px-2 py-1 rounded-sm">
-                  {project.category}
+                  {text.category}
                 </span>
                 <TechTags tech={project.tech} />
               </div>
@@ -90,38 +92,38 @@ export default function Projects() {
 
                   {/* Summary, Results & Actions */}
                   <div className={`w-full ${hasVideo ? 'lg:w-1/2' : 'lg:w-3/4'} flex flex-col items-start`}>
-                    {project.role && (
+                    {text.role && (
                       <span className="text-text-primary text-xs font-mono tracking-widest uppercase mb-4">
-                        <span className="text-text-secondary opacity-60">Role / </span>
-                        {project.role}
+                        <span className="text-text-secondary opacity-60">{t.rolePrefix} / </span>
+                        {text.role}
                       </span>
                     )}
 
                     <p className="text-text-primary text-lg lg:text-xl leading-relaxed font-light mb-6 max-w-4xl">
-                      {project.summary}
+                      {text.summary}
                     </p>
 
                     <div className="max-w-4xl">
-                      <HighlightList items={project.highlights} />
+                      <HighlightList items={text.highlights} />
                     </div>
 
                     {hasActions && (
                       <div className="flex flex-wrap gap-3 mt-10">
                         {hasVideo && (
                           <button onClick={() => toggleDemo(index)} className={actionClass}>
-                            {activeDemo === index ? "Close Demo" : "Watch Demo"}
+                            {activeDemo === index ? t.closeDemo : t.watchDemo}
                             <i className={`fa-solid ${activeDemo === index ? 'fa-xmark' : 'fa-play'} group-hover/btn:scale-110 transition-transform`}></i>
                           </button>
                         )}
                         {project.liveUrl && (
                           <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className={actionClass}>
-                            Visit Live Site
+                            {t.visitLive}
                             <i className="fa-solid fa-arrow-up-right-from-square group-hover/btn:scale-110 transition-transform"></i>
                           </a>
                         )}
                         {project.githubUrl && (
                           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className={actionClass}>
-                            View Code
+                            {t.viewCode}
                             <i className="fa-brands fa-github group-hover/btn:scale-110 transition-transform"></i>
                           </a>
                         )}

@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Reveal } from "./Reveal";
+import type { Dictionary } from "@/i18n/dictionaries";
 
-export default function Hero() {
+export default function Hero({ t }: { t: Dictionary["hero"] }) {
   return (
     <section id="about" className="min-h-[90vh] relative flex flex-col justify-center py-20 overflow-hidden">
 
@@ -46,7 +46,7 @@ export default function Hero() {
 
             <Reveal delay={0.6}>
               <div className="flex gap-6 items-center text-secondary">
-                <a href="mailto:contact@mohamedsakiss.me" className="hover:text-primary transition-colors">
+                <a href="mailto:contact@mohamedsakiss.me" aria-label={t.email} className="hover:text-primary transition-colors">
                   <i className="fa-solid fa-globe text-xl"></i>
                 </a>
                 <a href="https://www.linkedin.com/in/mohamed-aziz-sakiss-58a35b319" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
@@ -65,19 +65,19 @@ export default function Hero() {
           <Reveal delay={0.4} width="100%">
             <div className="flex items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-secondary mb-6">
               <span className="w-4 h-[1px] bg-secondary"></span>
-              Introduction
+              {t.intro}
             </div>
 
             <h3 className="text-2xl lg:text-3xl font-bold mb-6 text-primary leading-snug">
-              AI engineer who ships full products, not just models.
+              {t.headline}
             </h3>
 
             <p className="text-secondary leading-relaxed font-light mb-10 text-sm lg:text-base">
-              Architecture, backend, and deployment included. Comfortable moving across computer vision, LLMs/RAG, and the infrastructure that gets them into production.
+              {t.body}
             </p>
 
             <Link href="#projects" className="text-accent font-bold text-sm tracking-wide hover:text-primary transition-colors flex items-center gap-3">
-              View Portfolio <i className="fa-solid fa-arrow-right text-xs"></i>
+              {t.cta} <i className="fa-solid fa-arrow-right text-xs"></i>
             </Link>
           </Reveal>
         </div>

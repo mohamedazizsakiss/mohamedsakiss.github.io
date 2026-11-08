@@ -1,8 +1,9 @@
 "use client";
 
 import { Reveal } from "./Reveal";
+import type { Dictionary } from "@/i18n/dictionaries";
 
-export default function Contact() {
+export default function Contact({ t }: { t: Dictionary["contact"] }) {
   return (
     <section id="contact" className="bg-surface-base relative pt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-0">
@@ -12,12 +13,12 @@ export default function Contact() {
           <div>
             <Reveal>
               <h2 className="text-4xl lg:text-[4rem] font-black mb-6 text-text-primary tracking-tighter leading-none" style={{ fontFamily: 'var(--font-outfit)' }}>
-                Let&apos;s Work Together.
+                {t.title}
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-text-secondary text-lg mb-12 max-w-xl leading-relaxed font-light">
-                Currently open to full-time AI Engineering and Data Science roles. Let&apos;s discuss how I can bring value to your engineering team.
+                {t.body}
               </p>
             </Reveal>
             
@@ -48,13 +49,13 @@ export default function Contact() {
           <Reveal delay={0.3} width="100%">
             <div className="flex flex-col items-center w-full">
               <div className="border border-structural bg-white mb-6 transform hover:-translate-y-2 transition-transform duration-300 rounded-lg shadow-2xl overflow-hidden">
-                <img src="/Resume-QR.png" alt="Scan to get CV" className="w-48 h-48 lg:w-64 lg:h-64 object-contain" />
+                <img src="/Resume-QR.png" alt={t.qrAlt} className="w-48 h-48 lg:w-64 lg:h-64 object-contain" />
               </div>
               
-              <p className="text-xs text-text-secondary mb-6 font-mono tracking-widest uppercase text-center">Scan for digital CV</p>
+              <p className="text-xs text-text-secondary mb-6 font-mono tracking-widest uppercase text-center">{t.scan}</p>
               
               <a href="/mohamed_aziz_resume.pdf" download="Mohamed_Aziz_Sakiss_Resume.pdf" className="w-full py-4 bg-text-primary text-surface-base hover:bg-accent transition-colors flex items-center justify-center gap-3 text-xs font-mono font-bold tracking-widest uppercase rounded-sm">
-                <i className="fa-solid fa-download"></i> Download PDF
+                <i className="fa-solid fa-download"></i> {t.download}
               </a>
             </div>
           </Reveal>
@@ -66,7 +67,7 @@ export default function Contact() {
       <div className="border-t border-structural mt-24 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono text-text-secondary uppercase tracking-widest bg-surface-base">
         <p>© {new Date().getFullYear()} Mohamed Aziz Sakiss</p>
         <p>
-          <a href="https://github.com/mohamedazizsakiss/mohamedsakiss.github.io" target="_blank" rel="noopener noreferrer" className="text-text-primary font-bold hover:text-accent transition-colors underline decoration-structural underline-offset-4">View Source</a>.
+          <a href="https://github.com/mohamedazizsakiss/mohamedsakiss.github.io" target="_blank" rel="noopener noreferrer" className="text-text-primary font-bold hover:text-accent transition-colors underline decoration-structural underline-offset-4">{t.viewSource}</a>.
         </p>
       </div>
     </section>
