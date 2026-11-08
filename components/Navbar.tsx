@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { locales, localeLabels, localePath, type Locale } from "@/i18n/config";
@@ -8,24 +8,81 @@ import type { Dictionary } from "@/i18n/dictionaries";
 
 type Props = { lang: Locale; t: Dictionary["nav"] };
 
-function LanguageSwitcher({ lang, label, className = "" }: { lang: Locale; label: string; className?: string }) {
+// Button showing the current language; clicking it opens the list of languages.
+function LanguageMenu({ lang, label, onOpen }: { lang: Locale; label: string; onOpen?: () => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Close on outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <div role="group" aria-label={label} className={`flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest ${className}`}>
-      {locales.map((l, i) => (
-        <span key={l} className="flex items-center gap-1">
-          {i > 0 && <span className="text-text-secondary opacity-40" aria-hidden="true">/</span>}
-          <Link
-            href={localePath(l)}
-            hrefLang={l}
-            lang={l}
-            title={localeLabels[l]}
-            aria-current={l === lang ? "true" : undefined}
-            className={`px-1 py-1 transition-colors ${l === lang ? "text-accent font-bold" : "text-text-secondary hover:text-text-primary"}`}
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => {
+          if (!open) onOpen?.();
+          setOpen(!open);
+        }}
+        aria-label={`${label}: ${localeLabels[lang]}`}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className={`flex items-center gap-2 px-3 py-2 border rounded-full font-mono text-[10px] font-bold uppercase tracking-widest transition-colors ${open ? "border-accent text-accent" : "border-structural text-text-primary hover:border-accent hover:text-accent"}`}
+      >
+        <i className="fa-solid fa-globe text-xs" aria-hidden="true"></i>
+        {lang}
+        <i className={`fa-solid fa-chevron-down text-[8px] transition-transform duration-300 ${open ? "rotate-180" : ""}`} aria-hidden="true"></i>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            role="menu"
+            aria-label={label}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18 }}
+            className="absolute right-0 top-full mt-3 w-44 py-2 bg-surface-base/95 backdrop-blur-md border border-structural rounded-xl shadow-2xl z-10"
           >
-            {l}
-          </Link>
-        </span>
-      ))}
+            {locales.map((l) => {
+              const isCurrent = l === lang;
+              return (
+                <Link
+                  key={l}
+                  href={localePath(l)}
+                  hrefLang={l}
+                  lang={l}
+                  role="menuitem"
+                  aria-current={isCurrent ? "true" : undefined}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${isCurrent ? "text-accent" : "text-text-primary hover:bg-surface-elevated hover:text-accent"}`}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-text-secondary w-5">{l}</span>
+                    {localeLabels[l]}
+                  </span>
+                  {isCurrent && <i className="fa-solid fa-check text-xs" aria-hidden="true"></i>}
+                </Link>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -104,8 +161,9 @@ export default function Navbar({ lang, t }: Props) {
           </div>
 
           {/* Right Actions & Mobile Toggle */}
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher lang={lang} label={t.language} className="hidden sm:flex" />
+          <div className="flex items-center gap-3 sm:gap-4">
+            {/* Opening the language list closes the mobile menu so the two never overlap */}
+            <LanguageMenu lang={lang} label={t.language} onOpen={() => setIsMobileMenuOpen(false)} />
 
             <a
               href="/mohamed_aziz_resume.pdf"
@@ -152,11 +210,6 @@ export default function Navbar({ lang, t }: Props) {
                   </Link>
                 );
               })}
-
-              <div className="sm:hidden flex items-center gap-4 pt-2 border-t border-structural">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-text-secondary pt-4">{t.language}</span>
-                <LanguageSwitcher lang={lang} label={t.language} className="pt-4 text-[12px]" />
-              </div>
 
               <a
                 href="/mohamed_aziz_resume.pdf"
