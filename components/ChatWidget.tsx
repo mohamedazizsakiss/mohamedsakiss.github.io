@@ -5,9 +5,95 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 
-type Message = { role: "user" | "assistant"; content: string; failed?: boolean };
+// `typing` is true while an assistant answer is still being written out (it shows the cursor).
+type Message = { role: "user" | "assistant"; content: string; failed?: boolean; typing?: boolean };
 
 const MAX_INPUT_CHARS = 600; // keep in sync with MAX_USER_CHARS in app/api/chat/route.ts
+const MIN_CHARS_PER_SECOND = 100; // typing speed at its slowest
+const CATCH_UP_SECONDS = 1.2; // if the text arrives faster than it can be typed, speed up so the backlog clears in about this long
+
+// Types an answer out letter by letter. Text is pushed in as it arrives from the server, in bursts;
+// it is released at a steady pace on every animation frame, speeding up only when it falls behind,
+// so the bubble reads like someone writing instead of jumping forward in chunks. With `instant`
+// (visitors who prefer reduced motion) text is shown the moment it arrives.
+function createTypewriter(onUpdate: (shown: string) => void, instant: boolean) {
+  let pending = "";
+  let shown = "";
+  let frame = 0;
+  let last = 0;
+  let carry = 0; // fractional letters owed from the previous frame
+  let ended = false;
+  let finish: (text: string) => void = () => {};
+  const finished = new Promise<string>((resolve) => {
+    finish = resolve;
+  });
+
+  const step = (now: number) => {
+    const elapsed = Math.min(now - last, 100) / 1000; // a stalled tab shouldn't dump everything at once
+    last = now;
+    if (pending) {
+      carry += Math.max(MIN_CHARS_PER_SECOND, pending.length / CATCH_UP_SECONDS) * elapsed;
+      let count = Math.floor(carry);
+      carry -= count;
+      if (count > 0) {
+        // Never cut an emoji (a surrogate pair) in half.
+        const lastCode = pending.charCodeAt(Math.min(count, pending.length) - 1);
+        if (lastCode >= 0xd800 && lastCode <= 0xdbff) count++;
+        shown += pending.slice(0, count);
+        pending = pending.slice(count);
+        onUpdate(shown);
+      }
+    }
+    if (pending || !ended) {
+      frame = requestAnimationFrame(step);
+    } else {
+      frame = 0;
+      finish(shown);
+    }
+  };
+
+  return {
+    push(text: string) {
+      if (instant) {
+        shown += text;
+        onUpdate(shown);
+        return;
+      }
+      pending += text;
+      if (!frame) {
+        last = performance.now();
+        frame = requestAnimationFrame(step);
+      }
+    },
+    // Marks the end of the text; resolves with the whole answer once it has all been typed.
+    end(): Promise<string> {
+      ended = true;
+      if (!pending) {
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+        finish(shown);
+      }
+      return finished;
+    },
+    // Stops typing and returns everything received so far, typed or not.
+    cancel(): string {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      return shown + pending;
+    },
+  };
+}
+
+// While text is still being typed, hide a half-typed **bold** marker so stray asterisks don't flash.
+function hideDanglingMarkup(text: string): string {
+  const markers = text.match(/\*\*/g)?.length ?? 0;
+  let result = text;
+  if (markers % 2 === 1) {
+    const at = text.lastIndexOf("**");
+    result = text.slice(0, at) + text.slice(at + 2);
+  }
+  return result.replace(/(?<!\*)\*$/, "");
+}
 
 // Turns **bold**, URLs and email addresses in the model's plain-text answer into elements.
 function renderText(text: string): ReactNode[] {
@@ -46,14 +132,20 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [announcement, setAnnouncement] = useState(""); // finished answer, read out once by screen readers
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const stickToBottom = useRef(true); // false once the visitor scrolls up to re-read something
 
-  // Keep the newest message in view.
   useEffect(() => {
-    logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
+    if (open) stickToBottom.current = true;
+  }, [open]);
+
+  // Keep the newest text in view while it is typed, unless the visitor scrolled up.
+  useEffect(() => {
+    if (stickToBottom.current) logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [messages, open]);
 
   useEffect(() => {
@@ -115,13 +207,16 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
     // Failed turns are shown to the visitor but not sent back to the model.
     const history = [...messages.filter((m) => !m.failed), { role: "user" as const, content: text }];
     // The empty assistant bubble shows the typing dots until the first words arrive.
-    setMessages([...messages, { role: "user", content: text }, { role: "assistant", content: "" }]);
+    setMessages([...messages, { role: "user", content: text }, { role: "assistant", content: "", typing: true }]);
     setInput("");
     setBusy(true);
+    setAnnouncement("");
+    stickToBottom.current = true;
 
     const setAnswer = (update: (current: Message) => Message) =>
       setMessages((all) => [...all.slice(0, -1), update(all[all.length - 1])]);
 
+    let typewriter: ReturnType<typeof createTypewriter> | null = null;
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -137,7 +232,12 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
         return;
       }
 
-      // The server streams the answer as it is written: add each piece to the bubble on arrival.
+      // The server streams the answer as it is written; the typewriter shows it letter by letter.
+      const writer = createTypewriter(
+        (shown) => setAnswer((current) => ({ ...current, content: shown })),
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      );
+      typewriter = writer;
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let received = false;
@@ -147,14 +247,22 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
         const piece = decoder.decode(value, { stream: true });
         if (!piece) continue;
         received = true;
-        setAnswer((current) => ({ ...current, content: current.content + piece }));
+        writer.push(piece);
       }
-      if (!received) setAnswer(() => ({ role: "assistant", content: t.error, failed: true }));
+      if (!received) {
+        writer.cancel();
+        setAnswer(() => ({ role: "assistant", content: t.error, failed: true }));
+      } else {
+        const full = await writer.end();
+        setAnswer((current) => ({ ...current, typing: false }));
+        setAnnouncement(full);
+      }
     } catch {
-      // Network failure or the server aborted mid-answer: keep any partial text, flag the turn.
-      setAnswer((current) => ({
+      // Network failure or the server aborted mid-answer: keep what was received, flag the turn.
+      const partial = typewriter?.cancel() ?? "";
+      setAnswer(() => ({
         role: "assistant",
-        content: current.content ? `${current.content}\n\n${t.error}` : t.error,
+        content: partial ? `${partial}\n\n${t.error}` : t.error,
         failed: true,
       }));
     } finally {
@@ -201,7 +309,21 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
               </button>
             </header>
 
-            <div ref={logRef} role="log" aria-live="polite" className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
+            {/* Screen readers get the finished answer once, not every letter as it is typed. */}
+            <div className="sr-only" aria-live="polite">
+              {announcement}
+            </div>
+
+            <div
+              ref={logRef}
+              role="log"
+              aria-live="off"
+              onScroll={(event) => {
+                const log = event.currentTarget;
+                stickToBottom.current = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+              }}
+              className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3"
+            >
               <p className="max-w-[90%] self-start text-sm leading-relaxed text-text-secondary">{t.greeting}</p>
 
               {messages.map((message, i) =>
@@ -210,9 +332,18 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
                     {message.content}
                   </p>
                 ) : (
-                  <p key={i} className="max-w-[90%] self-start rounded-2xl rounded-bl-sm bg-surface-base border border-structural px-4 py-2 text-sm leading-relaxed text-text-secondary whitespace-pre-wrap break-words">
+                  <motion.p
+                    key={i}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="max-w-[90%] self-start rounded-2xl rounded-bl-sm bg-surface-base border border-structural px-4 py-2 text-sm leading-relaxed text-text-secondary whitespace-pre-wrap break-words"
+                  >
                     {message.content ? (
-                      renderText(message.content)
+                      <>
+                        {renderText(message.typing ? hideDanglingMarkup(message.content) : message.content)}
+                        {message.typing && <span className="chat-caret" aria-hidden="true" />}
+                      </>
                     ) : (
                       <span role="status" aria-label={t.thinking} className="flex items-center gap-1.5 py-1.5">
                         {[0, 1, 2].map((dot) => (
@@ -224,7 +355,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
                         ))}
                       </span>
                     )}
-                  </p>
+                  </motion.p>
                 ),
               )}
 

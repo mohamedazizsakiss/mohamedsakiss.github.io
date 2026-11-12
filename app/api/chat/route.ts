@@ -2,7 +2,7 @@
 // Chat assistant endpoint. Takes the conversation so far, lets the model look facts up through
 // the tools in lib/chat/tools.ts, and streams the answer back as plain text while the model writes it.
 // Standalone questions are answered from the semantic cache in lib/chat/cache.ts when a similar one
-// was asked before; those are typed out at a steady pace so they look the same as a live answer.
+// was asked before. The widget types the text out letter by letter, so the server never has to pace it.
 
 import { SITE_URL, defaultLocale, hasLocale, localeLabels, type Locale } from "@/i18n/config";
 import { lookupAnswer } from "@/lib/chat/cache";
@@ -19,9 +19,6 @@ const MAX_USER_CHARS = 600;
 const MAX_ASSISTANT_CHARS = 4000;
 const MAX_OUTPUT_TOKENS = 600;
 const MAX_ROUNDS = 4; // model calls per question: up to 3 rounds of lookups, then the answer
-const CACHED_MIN_CHUNK_CHARS = 4; // a cached answer is replayed in small pieces...
-const CACHED_MAX_STEPS = 80; // ...in at most this many steps, so even a long answer finishes in a couple of seconds
-const CACHED_STEP_MS = 14;
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 type ToolCall = { id: string; type: "function"; function: { name: string; arguments: string } };
@@ -61,8 +58,6 @@ function parseBody(body: unknown): { messages: ChatMessage[]; lang: Locale } | n
 
   return { messages: recent, lang: typeof lang === "string" && hasLocale(lang) ? lang : defaultLocale };
 }
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // One streamed model call. Forwards text as it arrives and returns any tool calls the model made.
 async function streamCompletion(
@@ -163,23 +158,6 @@ async function answerQuestion(
   throw new Error(`No answer after ${MAX_ROUNDS} rounds of tool calls`);
 }
 
-// Replays a cached answer in small pieces so it appears gradually, like a live one.
-function replayAnswer(answer: string): ReadableStream<Uint8Array> {
-  const encoder = new TextEncoder();
-  const characters = Array.from(answer); // by code point, so an emoji is never cut in half
-  const chunk = Math.max(CACHED_MIN_CHUNK_CHARS, Math.ceil(characters.length / CACHED_MAX_STEPS));
-  let offset = 0;
-  return new ReadableStream<Uint8Array>({
-    async pull(controller) {
-      if (offset >= characters.length) return controller.close();
-      const piece = characters.slice(offset, offset + chunk).join("");
-      offset += chunk;
-      controller.enqueue(encoder.encode(piece));
-      await sleep(CACHED_STEP_MS);
-    },
-  });
-}
-
 export async function POST(request: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
@@ -205,7 +183,7 @@ export async function POST(request: Request) {
   // mean different things depending on what was said before.
   const cached = messages.length === 1 ? await lookupAnswer(messages[0].content, lang, apiKey) : null;
   if (cached?.answer) {
-    return new Response(replayAnswer(cached.answer), {
+    return new Response(cached.answer, {
       headers: streamHeaders(`hit; similarity=${cached.similarity.toFixed(3)}`),
     });
   }

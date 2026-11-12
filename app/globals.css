@@ -43,3 +43,24 @@ body {
 .border-accent {
   border-color: var(--color-accent);
 }
+
+/* Blinking cursor shown at the end of the chat assistant's answer while it is being typed. */
+.chat-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.18em;
+  background-color: var(--color-accent);
+  animation: chat-caret-blink 1s steps(1) infinite;
+}
+@keyframes chat-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-caret {
+    animation: none;
+  }
+}
