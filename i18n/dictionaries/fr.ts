@@ -165,4 +165,18 @@ export const fr: Dictionary = {
     download: "Télécharger le PDF",
     viewSource: "Voir le code source",
   },
+  chat: {
+    open: "Questions sur Aziz",
+    close: "Fermer le chat",
+    title: "Questions sur Aziz",
+    subtitle: "Assistant IA · Réponses tirées de ce portfolio",
+    greeting: "Bonjour ! Je suis un assistant IA qui connaît les projets, l'expérience et les compétences d'Aziz. Que souhaitez-vous savoir ?",
+    suggestions: ["Quelle est la stack technique d'Aziz ?", "Parlez-moi d'ErgoFit", "Aziz est-il disponible ?"],
+    placeholder: "Posez une question…",
+    send: "Envoyer",
+    thinking: "Réflexion…",
+    error: "Une erreur est survenue. Réessayez, ou écrivez à contact@mohamedsakiss.me.",
+    rateLimit: "Trop de messages. Patientez une minute avant de réessayer.",
+    disclaimer: "Généré par IA. Vérifiez les détails importants dans le CV.",
+  },
 };

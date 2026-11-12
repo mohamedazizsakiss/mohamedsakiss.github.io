@@ -5,6 +5,7 @@ import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
+import ChatWidget from "@/components/ChatWidget";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 
@@ -23,6 +24,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Certifications lang={lang} t={dict.credentials} />
         <Contact t={dict.contact} />
       </main>
+      <ChatWidget lang={lang} t={dict.chat} />
     </>
   );
 }

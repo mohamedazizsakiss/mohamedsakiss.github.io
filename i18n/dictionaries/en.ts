@@ -167,6 +167,20 @@ export const en = {
     download: "Download PDF",
     viewSource: "View Source",
   },
+  chat: {
+    open: "Ask about Aziz",
+    close: "Close chat",
+    title: "Ask about Aziz",
+    subtitle: "AI assistant · Answers from this portfolio",
+    greeting: "Hi! I'm an AI assistant that knows Aziz's projects, experience and skills. What would you like to know?",
+    suggestions: ["What is Aziz's tech stack?", "Tell me about ErgoFit", "Is Aziz open to work?"],
+    placeholder: "Ask a question…",
+    send: "Send",
+    thinking: "Thinking…",
+    error: "Something went wrong. Please try again, or email contact@mohamedsakiss.me.",
+    rateLimit: "Too many messages. Please wait a minute and try again.",
+    disclaimer: "AI-generated. Check the resume for the details that matter.",
+  },
 };
 
 export type Dictionary = typeof en;

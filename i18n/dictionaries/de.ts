@@ -165,4 +165,18 @@ export const de: Dictionary = {
     download: "PDF herunterladen",
     viewSource: "Quellcode ansehen",
   },
+  chat: {
+    open: "Fragen zu Aziz",
+    close: "Chat schließen",
+    title: "Fragen zu Aziz",
+    subtitle: "KI-Assistent · Antworten aus diesem Portfolio",
+    greeting: "Hallo! Ich bin ein KI-Assistent und kenne Aziz' Projekte, Erfahrung und Fähigkeiten. Was möchten Sie wissen?",
+    suggestions: ["Welchen Tech-Stack nutzt Aziz?", "Erzählen Sie mir von ErgoFit", "Ist Aziz offen für Stellen?"],
+    placeholder: "Frage stellen…",
+    send: "Senden",
+    thinking: "Denkt nach…",
+    error: "Etwas ist schiefgelaufen. Bitte erneut versuchen oder an contact@mohamedsakiss.me schreiben.",
+    rateLimit: "Zu viele Nachrichten. Bitte eine Minute warten und erneut versuchen.",
+    disclaimer: "KI-generiert. Wichtige Details bitte im Lebenslauf prüfen.",
+  },
 };
