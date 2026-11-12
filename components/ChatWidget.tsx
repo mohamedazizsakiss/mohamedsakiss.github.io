@@ -49,6 +49,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   // Keep the newest message in view.
   useEffect(() => {
@@ -57,7 +58,9 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
 
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    // On touch devices focusing the input raises the keyboard immediately and hides half the panel,
+    // so only auto-focus with a mouse; phone users tap the field themselves.
+    if (window.matchMedia("(pointer: fine)").matches) inputRef.current?.focus();
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
@@ -66,6 +69,43 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // On phones the panel is a full-screen sheet. Size it to the *visible* viewport so the on-screen
+  // keyboard and the browser's collapsing address bar never push part of it off screen. The values
+  // go straight onto the element as CSS variables (read by the max-sm classes below).
+  useEffect(() => {
+    if (!open) return;
+    const phone = window.matchMedia("(max-width: 639px)");
+    const viewport = window.visualViewport;
+
+    const update = () => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      if (phone.matches && viewport) {
+        panel.style.setProperty("--sheet-top", `${viewport.offsetTop}px`);
+        panel.style.setProperty("--sheet-height", `${viewport.height}px`);
+        logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
+      } else {
+        panel.style.removeProperty("--sheet-top");
+        panel.style.removeProperty("--sheet-height");
+      }
+    };
+    update();
+
+    // A full-screen sheet shouldn't let the page behind it scroll.
+    const previousOverflow = document.body.style.overflow;
+    if (phone.matches) document.body.style.overflow = "hidden";
+
+    viewport?.addEventListener("resize", update);
+    viewport?.addEventListener("scroll", update);
+    phone.addEventListener("change", update);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      viewport?.removeEventListener("resize", update);
+      viewport?.removeEventListener("scroll", update);
+      phone.removeEventListener("change", update);
+    };
   }, [open]);
 
   async function send(question: string) {
@@ -116,6 +156,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={panelRef}
             id="chat-panel"
             role="dialog"
             aria-label={t.title}
@@ -123,7 +164,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="flex flex-col w-[min(24rem,calc(100vw-2rem))] h-[min(34rem,calc(100dvh-7rem))] bg-surface-elevated border border-structural rounded-2xl shadow-2xl overflow-hidden"
+            className="flex flex-col bg-surface-elevated border border-structural shadow-2xl overflow-hidden max-sm:fixed max-sm:inset-x-0 max-sm:top-[var(--sheet-top,0px)] max-sm:h-[var(--sheet-height,100dvh)] sm:w-96 sm:h-[min(34rem,calc(100dvh-7rem))] sm:rounded-2xl"
           >
             <header className="flex items-center justify-between gap-4 px-5 py-4 border-b border-structural">
               <div className="min-w-0">
@@ -136,7 +177,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label={t.close}
-                className="w-9 h-9 shrink-0 rounded-full border border-structural flex items-center justify-center text-text-secondary hover:text-text-primary hover:border-accent transition-colors"
+                className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-full border border-structural flex items-center justify-center text-text-secondary hover:text-text-primary hover:border-accent transition-colors"
               >
                 <i className="fa-solid fa-xmark" aria-hidden="true"></i>
               </button>
@@ -183,13 +224,13 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
                   placeholder={t.placeholder}
                   aria-label={t.placeholder}
                   autoComplete="off"
-                  className="flex-1 min-w-0 rounded-full bg-surface-base border border-structural px-4 py-2.5 text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-accent"
+                  className="flex-1 min-w-0 rounded-full bg-surface-base border border-structural px-4 py-2.5 text-base sm:text-sm text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-accent"
                 />
                 <button
                   type="submit"
                   disabled={busy || !input.trim()}
                   aria-label={t.send}
-                  className="w-10 h-10 shrink-0 rounded-full bg-accent text-surface-base flex items-center justify-center transition-opacity disabled:opacity-40"
+                  className="w-11 h-11 sm:w-10 sm:h-10 shrink-0 rounded-full bg-accent text-surface-base flex items-center justify-center transition-opacity disabled:opacity-40"
                 >
                   <i className="fa-solid fa-arrow-up" aria-hidden="true"></i>
                 </button>
@@ -207,7 +248,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
         aria-expanded={open}
         aria-controls="chat-panel"
         aria-label={open ? t.close : t.open}
-        className="h-14 rounded-full bg-accent text-surface-base shadow-2xl flex items-center gap-3 px-5 font-mono text-xs font-bold uppercase tracking-widest hover:brightness-110 transition"
+        className={`h-14 rounded-full bg-accent text-surface-base shadow-2xl flex items-center gap-3 px-5 font-mono text-xs font-bold uppercase tracking-widest hover:brightness-110 transition ${open ? "max-sm:hidden" : ""}`}
       >
         <i className={`fa-solid ${open ? "fa-xmark" : "fa-comment-dots"} text-base`} aria-hidden="true"></i>
         {!open && <span className="hidden sm:inline">{t.open}</span>}
