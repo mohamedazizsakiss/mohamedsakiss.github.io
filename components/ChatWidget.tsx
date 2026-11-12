@@ -114,6 +114,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
 
     // Failed turns are shown to the visitor but not sent back to the model.
     const history = [...messages.filter((m) => !m.failed), { role: "user" as const, content: text }];
+    // The empty assistant bubble shows the typing dots until the first words arrive.
     setMessages([...messages, { role: "user", content: text }, { role: "assistant", content: "" }]);
     setInput("");
     setBusy(true);
@@ -127,8 +128,7 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lang, messages: history.map(({ role, content }) => ({ role, content })) }),
       });
-      const data: { answer?: string } | null = await response.json().catch(() => null);
-      if (!response.ok || !data?.answer) {
+      if (!response.ok || !response.body) {
         setAnswer(() => ({
           role: "assistant",
           content: response.status === 429 ? t.rateLimit : t.error,
@@ -136,13 +136,31 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
         }));
         return;
       }
-      // The whole answer arrives at once and replaces the "Thinking…" placeholder.
-      setAnswer(() => ({ role: "assistant", content: data.answer as string }));
+
+      // The server streams the answer as it is written: add each piece to the bubble on arrival.
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let received = false;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const piece = decoder.decode(value, { stream: true });
+        if (!piece) continue;
+        received = true;
+        setAnswer((current) => ({ ...current, content: current.content + piece }));
+      }
+      if (!received) setAnswer(() => ({ role: "assistant", content: t.error, failed: true }));
     } catch {
-      setAnswer(() => ({ role: "assistant", content: t.error, failed: true }));
+      // Network failure or the server aborted mid-answer: keep any partial text, flag the turn.
+      setAnswer((current) => ({
+        role: "assistant",
+        content: current.content ? `${current.content}\n\n${t.error}` : t.error,
+        failed: true,
+      }));
     } finally {
       setBusy(false);
-      inputRef.current?.focus();
+      // Don't raise the keyboard on phones.
+      if (window.matchMedia("(pointer: fine)").matches) inputRef.current?.focus();
     }
   }
 
@@ -193,7 +211,19 @@ export default function ChatWidget({ lang, t }: { lang: Locale; t: Dictionary["c
                   </p>
                 ) : (
                   <p key={i} className="max-w-[90%] self-start rounded-2xl rounded-bl-sm bg-surface-base border border-structural px-4 py-2 text-sm leading-relaxed text-text-secondary whitespace-pre-wrap break-words">
-                    {message.content ? renderText(message.content) : <span className="animate-pulse">{t.thinking}</span>}
+                    {message.content ? (
+                      renderText(message.content)
+                    ) : (
+                      <span role="status" aria-label={t.thinking} className="flex items-center gap-1.5 py-1.5">
+                        {[0, 1, 2].map((dot) => (
+                          <span
+                            key={dot}
+                            className="h-1.5 w-1.5 rounded-full bg-text-secondary animate-bounce"
+                            style={{ animationDelay: `${dot * 150}ms` }}
+                          />
+                        ))}
+                      </span>
+                    )}
                   </p>
                 ),
               )}
